@@ -1,0 +1,11 @@
+[Unit]
+Description=Builder
+
+[Service]
+WorkingDirectory=/home/ubuntu
+ExecStart=/home/ubuntu/builder server
+Restart=always
+User=ubuntu
+
+[Install]
+WantedBy=multi-user.target

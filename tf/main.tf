@@ -112,15 +112,14 @@ resource "aws_instance" "web" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update",
-      "sudo apt-get -y install nginx",
-      "sudo apt-get -y install golang",
+      "sudo apt-get -y install nginx golang",
       "sudo service nginx start",
     ]
   }
 
   provisioner "file" {
-    source = "files/builder.conf"
-    destination = "/etc/init/myapp.conf"
+    source = "files/builder.service"
+    destination = "/etc/systemd/system/builder.service"
   }
 
   provisioner "file" {
@@ -128,11 +127,20 @@ resource "aws_instance" "web" {
     destination = "/etc/nginx/sites-available/builder"
   }
 
+  provisioner "file" {
+    source = "files/builder"
+    destination = "/home/ubuntu/initial_deploy.sh"
+  }
+
+
   provisioner "remote-exec" {
     inline = [
+      "/home/ubuntu/initial_deploy.sh",
       "ln -s /etc/nginx/sites-available/builder /etc/nginx/sites-enabled/builder",
       "rm /etc/nginx/sites-enabled/default",
-      "sudo service ngingx reload",
+      "service ngingx reload",
+      "systemctl daemon-reload",
+      "systemctl start builder.service"
     ]
   }
 }
