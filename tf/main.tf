@@ -113,7 +113,26 @@ resource "aws_instance" "web" {
     inline = [
       "sudo apt-get -y update",
       "sudo apt-get -y install nginx",
+      "sudo apt-get -y install golang",
       "sudo service nginx start",
+    ]
+  }
+
+  provisioner "file" {
+    source = "files/builder.conf"
+    destination = "/etc/init/myapp.conf"
+  }
+
+  provisioner "file" {
+    source = "files/builder"
+    destination = "/etc/nginx/sites-available/builder"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "ln -s /etc/nginx/sites-available/builder /etc/nginx/sites-enabled/builder",
+      "rm /etc/nginx/sites-enabled/default",
+      "sudo service ngingx reload",
     ]
   }
 }
