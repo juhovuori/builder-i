@@ -106,41 +106,7 @@ resource "aws_instance" "web" {
 
   subnet_id = "${aws_subnet.default.id}"
 
-  # We run a remote provisioner on the instance after creating it.
-  # In this case, we just install nginx and start it. By default,
-  # this should be on port 80
   provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get -y update",
-      "sudo apt-get -y install nginx golang",
-      "sudo service nginx start",
-    ]
-  }
-
-  provisioner "file" {
-    source = "files/builder.service"
-    destination = "/etc/systemd/system/builder.service"
-  }
-
-  provisioner "file" {
-    source = "files/builder"
-    destination = "/etc/nginx/sites-available/builder"
-  }
-
-  provisioner "file" {
-    source = "files/builder"
-    destination = "/home/ubuntu/initial_deploy.sh"
-  }
-
-
-  provisioner "remote-exec" {
-    inline = [
-      "/home/ubuntu/initial_deploy.sh",
-      "ln -s /etc/nginx/sites-available/builder /etc/nginx/sites-enabled/builder",
-      "rm /etc/nginx/sites-enabled/default",
-      "service ngingx reload",
-      "systemctl daemon-reload",
-      "systemctl start builder.service"
-    ]
+    script = "files/provision.sh"
   }
 }
