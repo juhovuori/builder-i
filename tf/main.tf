@@ -105,8 +105,4 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
   subnet_id = "${aws_subnet.default.id}"
-
-  provisioner "remote-exec" {
-    script = "files/provision.sh"
-  }
 }

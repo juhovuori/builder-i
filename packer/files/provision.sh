@@ -25,7 +25,8 @@ Description=Builder
 
 [Service]
 WorkingDirectory=/home/ubuntu
-ExecStart=/home/ubuntu/builder server
+ExecStart=/home/ubuntu/builder server -f https://raw.githubusercontent.com/juhovuori/builder/master/builder.hcl
+
 Restart=always
 User=ubuntu
 
