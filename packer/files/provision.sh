@@ -25,6 +25,7 @@ Description=Builder
 
 [Service]
 WorkingDirectory=/home/ubuntu
+Environment=BUILDER_TOKEN=public-secret
 ExecStart=/home/ubuntu/builder server -f https://raw.githubusercontent.com/juhovuori/builder/master/builder.hcl
 
 Restart=always
