@@ -49,4 +49,4 @@ sudo ln -s /etc/nginx/sites-available/builder /etc/nginx/sites-enabled/builder
 sudo rm /etc/nginx/sites-enabled/default
 sudo service ngingx reload
 sudo systemctl daemon-reload
-sudo systemctl start builder.service
+sudo systemctl enable builder.service
