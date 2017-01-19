@@ -20,6 +20,6 @@ variable "aws_region" {
 # Ubuntu 16.04 LTS (x64)
 variable "aws_amis" {
   default = {
-    eu-central-1 = "ami-fe408091"
+    eu-central-1 = "ami-05c00f6a"
   }
 }
